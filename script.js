@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
     const incomeList = document.getElementById('income-list');
     const incomeSummary = document.getElementById('income-summary');
 
+    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    let incomes = JSON.parse(localStorage.getItem('incomes')) || [];
+
     expenseForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -15,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
 
         const expense = { id: Date.now(), amount, category, description };
         expenses.push(expense);
+        localStorage.setItem('expenses', JSON.stringify(expenses));
+
         displayExpenses();
         displaySummary();
         calculateDifference();
@@ -30,13 +35,14 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
 
         const income = { id: Date.now(), amount: amount2, category: category2, description: description2 };
         incomes.push(income);
-
+        localStorage.setItem('incomes', JSON.stringify(incomes));
 
         displayIncome();
         displaySummaryIncome();
         calculateDifference();
         incomeForm.reset();
     });
+
     expenseList.addEventListener('click', (e) => {
         if (e.target.classList.contains('delete')) {
             const id = e.target.parentElement.dataset.id;
@@ -64,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
         expenses.forEach(expense => {
             const li = document.createElement('li');
             li.dataset.id = expense.id;
-            li.innerHTML = 
+            li.innerHTML = `
                 €${expense.amount} - ${expense.category} - ${expense.description}
                 <button class="delete">Delete</button>
-            ;
+            `;
             expenseList.appendChild(li);
         });
         calculateDifference();
@@ -78,15 +84,16 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
         incomes.forEach(income => {
             const li = document.createElement('li'); // creates a list
             li.dataset.id = income.id; // the name becomes the id of the list
-            li.innerHTML = 
+            li.innerHTML = `
                 €${income.amount} - ${income.category} - ${income.description}
                 <button class="delete">Delete</button>
-            ;
+            `;
             incomeList.appendChild(li); // puts the list in the incomeList
         });
         calculateDifference();
     }
-        function displaySummary() {
+
+    function displaySummary() {
         const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
         const categories = expenses.reduce((acc, expense) => {
             if (!acc[expense.category]) acc[expense.category] = 0;
@@ -114,12 +121,19 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
         calculateDifference();
     }
 
-    function calculateDifference() {
-        const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
-        const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-        const incomeMinusExpenses = totalIncome - totalExpenses;
-        const resultElement = document.getElementById('result');
-        resultElement.innerHTML = balance = €${ incomeMinusExpenses.toFixed(2) };
+    function calculateDifference(){
+    const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    const incomeMinusExpenses = totalIncome - totalExpenses;
+
+    const resultElement = document.getElementById('result');
+    resultElement.innerHTML = `balance = €${incomeMinusExpenses.toFixed(2)}`;
 
     }
+
+    displayExpenses();
+    displaySummary();
+    displayIncome();
+    displaySummaryIncome();
+    calculateDifference();
 });

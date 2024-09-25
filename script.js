@@ -86,6 +86,34 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
         });
         calculateDifference();
     }
+        function displaySummary() {
+        const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+        const categories = expenses.reduce((acc, expense) => {
+            if (!acc[expense.category]) acc[expense.category] = 0;
+            acc[expense.category] += expense.amount;
+            return acc;
+        }, {});
+        expenseSummary.innerHTML = `
+            <h3>Total: €${total.toFixed(2)}</h3>
+            ${Object.keys(categories).map(category => `<p>${category}: €${categories[category].toFixed(2)}</p>`).join('')}
+        `;
+        calculateDifference();
+    }
+
+    function displaySummaryIncome() {
+        const total2 = incomes.reduce((sum, income) => sum + income.amount, 0); // calculate total income
+        const categories2 = incomes.reduce((acc2, income) => { // cal culate the income categories and their total amounts
+            if (!acc2[income.category]) acc2[income.category] = 0;
+            acc2[income.category] += income.amount;
+            return acc2;
+        }, {});
+        incomeSummary.innerHTML = `
+            <h3>Total: €${total2.toFixed(2)}</h3>
+            ${Object.keys(categories2).map(category => `<p>${category}: €${categories2[category].toFixed(2)}</p>`).join('')}
+        `; // displaying everything
+        calculateDifference();
+    }
+
     function calculateDifference() {
         const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
         const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);

@@ -6,11 +6,22 @@ body {
     box-sizing: border-box;
 }
 
+#container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 2fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr 2fr 4fr;
+    grid-template-areas:
+        ". . . . . . ."
+        ". income . . . expense ."
+        ". income . balance . expense ."
+        ". income . . . expense ."
+        ". . . . . . ."
+}
 
 .container {
     min-width: 500px;
-    /max-width: 600px;/
-    height: fit-content;
+    /max-width: 600px;/ height: fit-content;
     grid-area: expense;
     padding: 20px;
     background: black;
@@ -21,8 +32,7 @@ body {
 
 .container2 {
     min-width: 500px;
-    /max-width: 600px;/
-    height: fit-content;
+    /max-width: 600px;/ height: fit-content;
     grid-area: income;
     padding: 20px;
     background: black;
@@ -32,8 +42,7 @@ body {
 }
 
 #incomeexpense {
-    /width: 200px;/
-    padding: 20px;
+    /width: 200px;/ padding: 20px;
     background: #1aff00;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -42,8 +51,7 @@ body {
     justify-items: center;
 }
 
-h1 {
-}
+h1 {}
 
 form {
     display: flex;
@@ -108,4 +116,15 @@ button:hover {
 
 #expense-summary {
     margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    #container {
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas:
+            ". income ."
+            ". expense ."
+            ". balance ."
+    }
 }

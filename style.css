@@ -21,7 +21,8 @@ body {
 
 .container {
     min-width: 500px;
-    /max-width: 600px;/ height: fit-content;
+    /* /max-width: 600px;/  */
+    height: fit-content;
     grid-area: expense;
     padding: 20px;
     background: black;
@@ -32,7 +33,8 @@ body {
 
 .container2 {
     min-width: 500px;
-    /max-width: 600px;/ height: fit-content;
+    /* /max-width: 600px;/  */
+    height: fit-content;
     grid-area: income;
     padding: 20px;
     background: black;
@@ -42,7 +44,8 @@ body {
 }
 
 #incomeexpense {
-    /width: 200px;/ padding: 20px;
+    /* /width: 200px;/  */
+    padding: 20px;
     background: #1aff00;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

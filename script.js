@@ -37,6 +37,55 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
         calculateDifference();
         incomeForm.reset();
     });
+    expenseList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete')) {
+            const id = e.target.parentElement.dataset.id;
+            expenses = expenses.filter(expense => expense.id != id);
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+            displayExpenses();
+            displaySummary();
+            calculateDifference();
+        }
+    });
+
+    incomeList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete')) {
+            const id = e.target.parentElement.dataset.id; // checks the id to be able to delete it
+            incomes = incomes.filter(income => income.id != id); // Filter the incomes array to remove the income with the matching ID
+            localStorage.setItem('incomes', JSON.stringify(incomes)); // saves to local file
+            displayIncome();
+            displaySummaryIncome();
+            calculateDifference();
+        }
+    });
+
+    function displayExpenses() {
+        expenseList.innerHTML = '';
+        expenses.forEach(expense => {
+            const li = document.createElement('li');
+            li.dataset.id = expense.id;
+            li.innerHTML = 
+                €${expense.amount} - ${expense.category} - ${expense.description}
+                <button class="delete">Delete</button>
+            ;
+            expenseList.appendChild(li);
+        });
+        calculateDifference();
+    }
+
+    function displayIncome() {
+        incomeList.innerHTML = '';
+        incomes.forEach(income => {
+            const li = document.createElement('li'); // creates a list
+            li.dataset.id = income.id; // the name becomes the id of the list
+            li.innerHTML = 
+                €${income.amount} - ${income.category} - ${income.description}
+                <button class="delete">Delete</button>
+            ;
+            incomeList.appendChild(li); // puts the list in the incomeList
+        });
+        calculateDifference();
+    }
     function calculateDifference() {
         const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
         const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);

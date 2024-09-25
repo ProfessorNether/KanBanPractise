@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
     const incomeForm = document.getElementById('income-form');
     const incomeList = document.getElementById('income-list');
     const incomeSummary = document.getElementById('income-summary');
-    
+
     expenseForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
         expenses.push(expense);
         displayExpenses();
         displaySummary();
-
+        calculateDifference();
         expenseForm.reset();
     });
 
@@ -30,11 +30,19 @@ document.addEventListener('DOMContentLoaded', () => { // loads this before every
 
         const income = { id: Date.now(), amount: amount2, category: category2, description: description2 };
         incomes.push(income);
-       
+
 
         displayIncome();
         displaySummaryIncome();
-        
+        calculateDifference();
         incomeForm.reset();
     });
+    function calculateDifference() {
+        const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+        const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+        const incomeMinusExpenses = totalIncome - totalExpenses;
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = balance = €${ incomeMinusExpenses.toFixed(2) };
+
+    }
 });
